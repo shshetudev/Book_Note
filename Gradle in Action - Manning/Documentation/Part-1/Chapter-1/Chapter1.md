@@ -48,6 +48,7 @@
   * __Optimally, the automated tasks should be executable from the command line, which allows us to run the build from any machine we want, whenever we want.__
   
 #### Types of project automation
+
 * __On-demand builds:__
   * The typical use case for on-demand automation is when a user triggers a build on his or her machine.
   * In most cases, the user executes a script on the command line that performs tasks in a predined order.
@@ -72,6 +73,128 @@
 
 #### Build tools
 
+* A programming utility that lets us express our automation neeeds as executable is ordered tasks.
+![orderd tasks](images/1.4-build-tools.png)
+* Each of these tasks in the above figure represents a unit of work.
+* The order is important. We can't create the ZIP archive if the required class file haven't been compiled. Therefore the compilation task needs to be executed first.
+  
+#### Directed Acyclic Graph (DAG)
+  
+* Internally, tasks and their dependencies are modeled as a directed acyclic graph (DAG).
+* A DAG is a data structure containing following two elements:
+  * __Node:__
+    * __A unit of work.__ In this case of a build tool, this is a task (for example, compiling source code).
+  * __Directed edge:__
+    * __A directed edge, also called an arrow, representing the relationship between nodes.__
+    * In our situation, the arrow means _depends on._
+    * If a task defines dependent tasks, they'll need to execute before the task itself can be executed.
+* Each node knows about it's own execution state.
+* __A node, and therefore the task can only be executed once.__
+  ![DAG representation](images/1.5-dag-representation.png)
 
+  #### Anatomy of a build tool
+
+  * It's important to understand the interactions among the components of a build tool, the actual definition of the build login, and the data that goes in and out.
+  * __Build File:__
+    * __The bulid file contains the configuration needed for the build, defines external dependencies such as third-party libraries, and contains the instructions to achieve a specific goal in the form of tasks and their independencies.__
+    ![Build file](images/1.6-build-file.png)
+    * Oftentimes, a scripting language is used to express the build logic.
+    * __That's why a build file is also referred to as a *build script.*__
+  * __Build inputs and outputs:__
+    * __A task takes an input, works on it by executing a series of steps, and produces an output.__
+    * Some tasks may not need any input to function correctly, nor is creating an output considerd __mandatory__.
+    * __Complex task dependency graphs may use the output of a dependent task as input.__
+    ![Task inputs and outputs](images/1.7-task-input-output.png)
+  * __Build Engine:__
+    * The build file's step-by-step instructions or rule set must be translated into an internal model the build tool can understand.
+    * __The build engine processes the build file at runtime, resolves dependencies between tasks, and setup the entire configuration needed to command the execution.__
+    * __Once the internal model is built, the engine will execute the series of tasks in the correct order.__
+    ![Build engine](images/1.8-build-engine.png) 
+    * Some build tools allow us to access this model via an API to query for this information at runtime.
+  * __Dependency Manager:__
+    * __The dependency manager is used to process declarative dependency definations for our build file, resolve them from an artifact repository (for example, the local file system, an FTP, or an HTTP server),__ and make them available to our project.
+    ![Dependency manager](images/1.9-dependency-manager.png) 
+    * A __dependecny__ is generally an external, reusable library in the form of a JAR file(for example, Log4j for logging support).
+    * The __repository__ acts as storage for dependencies, and organizes and describes them by identifiers, such as name and version.
+    * A typical repository can be an __HTTP server or the local file system.__
+
+#### Java build tools
+
+* __Apache Ant:__
+  * __Apache Ant (Another Neat Tool) is an open source build tool written in Java.__
+  * Its main purpose is __to provide automation for typical tasks needed in Java projects, such as compiling source files to classes, running unit tests, packaging JAR files, and creating Javadoc documentation.__
+  * __While Ant's core is written in Java__, our build file is expressed through XML, which makes it portable across different runtime environments.
+  * __Cons of Apache Ant:__
+    * __Ant does not provide a dependency manager, so we'll need to manage external dependencies ourselves.__
+    * However, Ant integrates well with another Apache project called __Ivy, a full-fledged, standalone dependency manager.__
+    * Integrating Ant with Ivy requires additional effort and has to be done manually for each individual project.
+     
+* __Build Script terminology:__
+  * A build script consists of three basic elements: __the project, multiple target and the used tasks.__
+  * __Task:__
+    * In Ant, a __task is a piece of executable code__, for example, for creating a new directory or moving a file.
+    ![Hierarchical build script](images/1.10-ant-hierarchial-build-script.png)
+    * The task's behavior can be configured by it's exposed attributes.
+    * The following code snippet shows the usage of the `javac` Ant tak for compiling Java source code withing our build script:
+    ![Target](images/1.10.1-build-script.png)
+    * While Ant ships with a wide range of predefined tasks, we can extend our build script's capabilites by writing our own task in Java.
+  * __Target:__
+    * __A `target` is a set of tasks we want to be executed.__
+    * We can think of it as a logical grouping.
+    * When running Ant on command line, we provide the name fo the target(s) we want to execute.
+    * By declaring dependencies between targets, a whole chain of commands can be created. The following code snippet shows two dependent targets:
+    ![Target](images/1.10.2-target.png)
+  * __Project:__
+    * Mandatory to all Ant projects is the overarching container, the `project`.
+    * __Project is the top-level elemnet in an Ant script and contains one or more targets.__
+    * We can only define one project per build script.
+    * The following code snippet shows the project in releation to the targets:
+    ![Project](images/1.10.3-project.png)
+
+* __Sample Build Script:__
+  *  Say we want to write a script that compiles our Java source code in the directory `src` using the Java compiler and put it into the output directory `build`.
+  *  Our Java `source code` has a dependency on a class from the external library `Apache Commons Lang`.
+  *  We will tell the compiler about it by referencing the library's JAR file in the classpath.
+  *  After compiling the code, we want to assemble a JAR file.
+  *  Each unit of work, source code compilation, and JAR assembly will be grouped in an individual target.
+  *  We will also add two more targets for initializing and cleaning up the required output directories.
+  *  The structure of the Ant build script we'll create is shown:
+  ![Hierarchical project structure of Ant build script](images/1.11-hierarchical-project-structure-of-sample-ant-build-script.png)
+  * __Implementation:__
+    * Let's implement this example as a Ant build script. The following figure shows the whole project and targets required to achieve our goal:
+     ![Ant Script](images/1.11.1-ant-script-with-targets-for-compiling-source-code-and-assembling-JAR-file.png)
+     * Ant doesn't impose any restrictions on how to define our build's structure.
+     * This makes it easy to adapt to existing project layouts.
+     * For example, the source and output directories in the sample script have been chosen arbitrarily.
+     * It would be very easy to change them by setting a different value to their corresponding properties.
+     * The same is true for target definition.
+     * We have full flexibility to choose with logic needs to be executed per target and the order of execution.
   
-  
+  * __Shortcomings:__
+    * __Versbose bulid scripts:__ Using XML as the definition language for our build logic results in overly large and verbose build scripts compared to build tools with a more succinct definition language.
+    * __Unmaintainable build scripts:__
+      * Complex build logic leads to long and unmaintainable build scripts.
+      * Trying to define conditional logic like if-then/if-then-else statements becomes a burden when using a markup language.
+    * __No guidelines:__ 
+      * Ant doesn't give us any guidelines on how to setup our project.
+      * In enterprise setting, this often leads to a build file that looks different every time.
+    * __Monitoring API not exposed:__
+      * Ant dosen't expose an API that lets us query information about the in-memory model at runtime.
+    * __Without Ivy makes it hard:__
+      * Using Ant without Ivy makes it hard to manage dependencies.
+      * Oftentimes, we will need to check our JAR files into version control an manage their organization manually.
+
+#### Apache Maven
+##### Why Maven?
+* __Maintainability:__
+  * Using Ant across many projects within an enterprise has a big impact on maintainability.
+  * With flexibility comes a lot of duplicated code snippets that are copied from one project to another.
+* __Idea of convention over configuration:__
+  * The Maven team realized the need for a standerdaized project layout an unified build lifecycle.
+  * Maven picks up on the __idea of convention over configuration,__ meaning that it provides sensible default values for our project configuration and its behavior.
+* __Knows where to search:__ The project automatically knows what directories to search for source code and what tasks to perform when running the build.
+* __Ability to generate HTML project documentation:__ Maven also has the ability to generate HTML project documentation that includes the Javadocs for our application.
+* __Plugin support:__
+  * Maven's core functionality can be extended by custom logic developed as __plugins.__
+  * The community is very active, and we can find a plugin for almost every aspect of build support, from integration with other development tools to reporting.
+  * If a __plugin does not exist for our specific needs, we can write our own extension.__
