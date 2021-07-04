@@ -198,3 +198,60 @@
   * Maven's core functionality can be extended by custom logic developed as __plugins.__
   * The community is very active, and we can find a plugin for almost every aspect of build support, from integration with other development tools to reporting.
   * If a __plugin does not exist for our specific needs, we can write our own extension.__
+
+##### Standard directory layout
+* __Specific file existence:__ By introducing a default project layout, Maven ensures that every developer with the knowledge of Maven project will immediately know where to expect specific file types.
+* __Java application source code:__ Java application source code sites in the directory `src/main/java`.
+* All default directories are configurable.
+* 
+##### Build Lifecycle
+* Maven is based on the concept of a build lifecycle.
+* Every project knows exactly which steps to perform to build, package, and distribute an application, including the following functionality:
+  * Compiling source code.
+  * Running unit and integration tests.
+  * Assembling the artifact (for example, a JAR file).
+  * Deploying the artifact to a local repository.
+  * Releasing the artifact to a remote repository.
+* __Phase__
+  * Every step in this build lifecycle is called a `phase`.
+  * Phases are executed sequentially.
+  * The phase we want to execute is defined when running the bulid on the command line.
+  ![Maven's default project layout](images/1.12-maven-default-project-layout.png) 
+  * __We call the phase for packaging the application, Maven will automatically determine that the dependent phases like source code compliation and running tests need to be executed beforehand.__
+  * The below figure-1.13 shows the predefined phases of Maven build and their order of execution.
+  ![Maven build lifecycle phases](images/1.13-maven-build-lifecycle.png) 
+
+##### Dependency Management
+* __Dependencies to external libraries:__ In maven projects, dependencies to external libraries are declared within the build script.
+* __For example, if our project requires the popular Java library Hibernate, we simply define its unique artifact coordinates, such as organization, name, version, in the dependencies configuration block.__
+* __How Maven dependency manager works?__
+  * __At runtime, the declared libraries and their transitive dependencies are downloaded by Maven's dependency manager, stored in the local cache for later reuse__, and made available to our build (for example, for compiling source code).
+  ![Maven dependency manager](images/1.13.1-dependency-management.png) 
+  * __Maven precofigures the use of repository, Maven Central, to download dependencies.__
+  * __Subsequent builds will reuse an existing artiface from the local cache and therefore won't contact Maven Central.__
+  * __Maven Central is the most popular binary artifact repository in the Java community.__
+  ![Maven interaction with maven central](images/1.14-maven-interaction-with-maven-central.png)
+* __Is depenedency management in Mave limited to external libraries?__
+  * __No. Dependency management in Maven isn't limited to external libraries. We can also declare a dependency on other Maven projects.__
+  * __This need arises if we decompose software into `modules`, which are smaller components based on associated functionality.__
+  ![Modularized architechture](images/1.15-modularized-architecture.png)
+
+##### Simple Build Script
+  * The following figure shows a sample Maven build script named `pom.xml` that will implement the same functionality as the Ant build.
+  ![Maven POM for building standardized Java project](images/1.15.1-maven-pom.png) 
+  * We will stick to the the default conventions here, so maven will look for the source code in the directory `src/main/java` instead of `src`.
+
+##### Shortcomings
+* __Restrictive structure and lifecycle:__ Maven proposes a default structure and lifecycle for a project that often is too restrictive and may not fit our project's needs.
+* __Custom extension overl cumbersome:__ 
+  * Writing custom extensions for Maven is overly cumbersome.
+  * We will need to learn about __Mojos (Maven's internal extenstion API)__, how to provide a plugin descriptor (again in XML), and about specific annotations to provide the data needed in our extension implementation.
+* __Brittle and unstable builds:__ 
+  * Earlier versions of __Maven (2.0.9) automatically try to update their own core plugins.__ 
+  * This may cause brittle and unstable builds.
+
+
+##### Requirement for a next generation build tool
+* __Problems on both Ant and Maven:__
+  * __By picking Ant__, we choose full flexibility and extensibility but get weak project standardization, tons of boilerplate code and no support for dependency management.
+  * __By picking maven__, which offers a convention over configuration approach and a seamlessly integrated dependency manager, but an overly restrictive mindset and cumbersome plugin system.
