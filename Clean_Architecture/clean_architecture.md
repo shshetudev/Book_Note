@@ -20,3 +20,6 @@
 - The bigger lie that developers buy into is the notion that writing messy code makes them go fast in the short term, and just slows them down in the long term.
 - **The only way to go fast, in to go well**.
 - **Their overconfidence will drive the redesign into the same mess as the original project.**
+
+
+# Chapter 2: A tale of two values
