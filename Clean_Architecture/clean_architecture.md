@@ -23,3 +23,34 @@
 
 
 # Chapter 2: A tale of two values
+- Every software system provides two different values to the stakeholders: **behavior and structure**.
+- Software developers are responsible for ensuring that both those values remain high.
+
+## Behavior
+- The first value.
+- Programmers are hired to make machines behave in a way that makes or saves money for the stakeholders.
+- Many programmers believe their job is to make the machine implement the requirements and to fix any bugs. They are sadly mistaken.
+
+## Architecture
+- The second value.
+- Software was invented to be "soft". That is it must be easy to change.
+- If we'd wanted the behavior of machines to be hard to change, we would have called it hardware.
+- The difficulty in making such a change should be proportional only to the scope of the change, and not to the shape of the change.
+- Architectures should be as shape agnostic are practical.
+
+## The Greater Value
+- Managers will often say it's more important for the software system to work.
+- If you give me a program that works perfectly bu is impossible to change, then it won't work when the requirements change. Therefore the program will become useless.
+- If you give me a program that does not work but is easy to change, then I can make it work, and keep it working as requirment changes. Therefore the program will remain continually useful.
+- It is the responsibility of the software development team to assert the importance of architecture over the urgency of features.
+
+## Eisenhower's Matrix:
+- There are four kinds of problems: 
+  - Important Urgent. (I1)
+  - Important not Urgent. (I2)
+  - Unimportant Urgent. (U1)
+  - Unimportnat Not Urgent. (U2) 
+  
+## FIGHT FOR THE ARCHITECTURE  
+- Fulfilling this responsibility means wading into a fight.
+- If architecture comes last, than the system will become ever more costly to develop, and eventually change will become practically impossible for part or all of the system.
