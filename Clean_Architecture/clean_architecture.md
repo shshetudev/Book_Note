@@ -61,4 +61,16 @@
   - Object-oriented programming.
   - Functional programming.
 - **Structured programming:**
-  - The first par
+  - The first paradigm8 to be adopted was structured programming, which was discovered by Edsger Wybe Dikstra in 1968.
+  - Dikstra showed that the use of unrestrained jums(goto statements) is harmful to program structure.
+  - He, replaced those jumps with the more familiar `if/then/else` and `do/while/until` constructs.
+  - **Structured programming imposes discipline on direct transfer of control.**
+
+- **Object Oriented programming:**
+- This second paradigm was actually discovered by Ole Johan Dahl and Kristen Nygaard.
+- **Object oriented programming imposes discipline on indirect transfer of control.**
+
+- **Functional programming:**
+- The third paradigm is known as Functional programming.
+- This is the direct result of the work of ALonzo Church, who in 1936 invented 1-calculus while pursuing the same mathematical problem that was motivating Alan Turing at the same time.
+- **Functional programming imposes discipline upon assignment.**
