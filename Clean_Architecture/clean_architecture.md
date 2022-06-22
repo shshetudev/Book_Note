@@ -54,3 +54,11 @@
 ## FIGHT FOR THE ARCHITECTURE  
 - Fulfilling this responsibility means wading into a fight.
 - If architecture comes last, than the system will become ever more costly to develop, and eventually change will become practically impossible for part or all of the system.
+
+# Chapter 3: PARADIGM OVERVIEW
+- There are 3 paradigms in programming:
+  - Structured programming.
+  - Object-oriented programming.
+  - Functional programming.
+- **Structured programming:**
+  - The first par
