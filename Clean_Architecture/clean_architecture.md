@@ -74,3 +74,36 @@
 - The third paradigm is known as Functional programming.
 - This is the direct result of the work of ALonzo Church, who in 1936 invented 1-calculus while pursuing the same mathematical problem that was motivating Alan Turing at the same time.
 - **Functional programming imposes discipline upon assignment.**
+
+# Chapter 4: STRUCTURED PROGRAMMING
+
+## Some interesting facts about Dijkstra
+- Dijkstra concluded that the intellectual challenge of programming was greater than the intellectual challenge of theoretical physics. As a result, he chose programming as his long-term career.
+- The Dutch authorities were unwilling to accept "programmer" as Dijkstra's profession. They had never heard of such a profession. To satisfy them, Dijkstra settled for "theoretical physicist" as his job title.
+- **Dijkstra’s solution was to apply the mathematical discipline of proof. His vision was
+the construction of a Euclidian hierarchy of postulates, theorems, corollaries, and
+lemmas**. 
+- **Dijkstra thought that programmers could use that hierarchy the way
+mathematicians do**. 
+- In other words, programmers would use proven structures, and
+tie them together with code that they would then prove correct themselves.
+- Dijkstra discovered that certain uses of goto statements
+prevent modules from being decomposed recursively into smaller and smaller units,
+thereby preventing use of the divide-and-conquer approach necessary for reasonable
+proofs.
+- **Bohm and Jacopini, proved that all programs can be constructed from just three structures: sequence, selection and iteration.**
+- **Dijkstra showed that sequential statements could be proved correct through simple
+enumeration.**
+3- **Dijkstra tackled selection through reapplication of enumeration**.
+- **To prove an iteration correct, Dijkstra had to use
+induction. He proved the case for 1 by enumeration. Then he proved the case that if
+N was assumed correct, N + 1 was correct, again by enumeration. He also proved the
+starting and ending criteria of the iteration by enumeration.**
+
+## SCIENCE TO THE RESCUE
+- The statement `This is a lie` in neither true nor false.
+- **Ultimately we can say that, mathematics is the discipline of proving provable stements true. Science in contrast, is the discipline of proving provable statement false.**
+
+## TESTS
+- Dijkstra once said, **Testing shows the presence, not the absence of bugs.** 
+- In other words, **a program can be proven incorrect by a test, but it can not be proven correct.**
