@@ -1,0 +1,26 @@
+Common mistakes:
+================
+1. Not investigating tooling enough:
+------------------------------------
+- Abraham Lincoln once said “If I had 8 hours to chop a tree, I’d spend 7 sharpening my axe.”
+- A junior engineer will spend 8 hours chopping with a dull axe. The senior engineer spends an hour picking the right chainsaw. And 5 minutes cutting the tree.
+- A common mistake junior engineers make is that they dive head first into coding. They stick with only the tools they know, and try to fit it for every situation. 
+- They spend almost no time looking into other alternatives. Or whether it's possible to do the job writing 0 code at all!
+- Using the right tool is the difference between laboring for weeks, and finshing a task in 10 minutes. That's where the 10x difference accrues.
+
+2. Not asking for help:
+-----------------------
+- Some junior engineers have this misconception that a senior engineer is like a lone genius. If they keep at the problem, they'll eventually get a solution.
+- But this is a rather naive way of thinking. A lot of times the difference is that they were missing context-information that they couldn't possibly deduce themselves.
+- A less experienced engineer who knows how to ask for help will always beat a more talented engineer who never asks for help.
+- Some things are not often clear:
+	- why the code base was structured the way it was.
+	- which API to call from another team.
+	- how deployments work.
+
+3. Not delivering business value:
+---------------------------------
+- Engineers must weigh opportunity costs Ask yourself: Of all the features you could build - is this feature the best use of your time?
+- A lot of new engineers lose sight of the business goals:
+	- There's this new techonology out that's really cool. Let's spend five days integrating this into the website.
+	- I
